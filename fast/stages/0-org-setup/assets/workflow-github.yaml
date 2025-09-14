@@ -1,18 +1,15 @@
-# Copyright 2025 Google LLC
+# Copyright (c) 2025 Autonomous Innovation Technology Consultancy. All Rights Reserved.
+# This file is the proprietary and confidential property of Autonomous Innovation
+# Technology Consultancy. Unauthorized copying of this file, via any medium, is
+# strictly prohibited.
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+# This code is provided for commercial use only and is not licensed under an
+# open-source license.
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# For inquiries, please contact cloud.admin@autinno.com
+# Website: https://www.autinno.com/
 
-name: "FAST ${stage_name} stage"
+name: "GCP Foundation - FAST ${stage_name} stage"
 
 on:
   pull_request:
@@ -22,6 +19,10 @@ on:
       - closed
       - opened
       - synchronize
+    paths:
+      - 'bootstrap/gcp**'
+      - 'live/shared/gcp**'
+      - 'gcp**'
 
 env:
   FAST_SERVICE_ACCOUNT: ${service_accounts.apply}
@@ -31,15 +32,16 @@ env:
   TF_PROVIDERS_FILE: ${tf_providers_files.apply}
   TF_PROVIDERS_FILE_PLAN: ${tf_providers_files.plan}
   TF_VERSION: 1.11.4
+  TF_ACTIONS_WORKING_DIR: ./bootstrap/gcp-foundation
 
 jobs:
   fast-pr:
     # Skip PRs which are closed without being merged.
     if: >-
-      github.event.action == 'closed' && 
+      github.event.action == 'closed' &&
       github.event.pull_request.merged == true ||
       github.event.action == 'opened' ||
-      github.event.action == 'synchronize'  
+      github.event.action == 'synchronize'
     permissions:
       contents: read
       id-token: write
@@ -96,6 +98,7 @@ jobs:
 
       - id: tf-config-provider
         name: Copy Terraform provider file
+        working-directory: $${{ env.TF_ACTIONS_WORKING_DIR }}
         run: |
           gcloud storage cp -r \
             "gs://${outputs_bucket}/providers/$${{env.provider_file}}" ./
@@ -115,17 +118,20 @@ jobs:
       - id: tf-init
         name: Terraform init
         continue-on-error: true
+        working-directory: $${{ env.TF_ACTIONS_WORKING_DIR }}
         run: |
           terraform init -no-color
 
       - id: tf-validate
         continue-on-error: true
         name: Terraform validate
+        working-directory: $${{ env.TF_ACTIONS_WORKING_DIR }}
         run: terraform validate -no-color
 
       - id: tf-plan
         name: Terraform plan
         continue-on-error: true
+        working-directory: $${{ env.TF_ACTIONS_WORKING_DIR }}
         run: |
           terraform plan -input=false -out ../plan.out -no-color $${{env.plan_opts}}
 
@@ -133,6 +139,7 @@ jobs:
         if: github.event.pull_request.merged == true && success()
         name: Terraform apply
         continue-on-error: true
+        working-directory: $${{ env.TF_ACTIONS_WORKING_DIR }}
         run: |
           terraform apply -input=false -auto-approve -no-color ../plan.out
 
@@ -172,7 +179,7 @@ jobs:
 
             ### Terraform Apply \`$${{steps.tf-apply.outcome}}\`
 
-            *Pusher: @$${{github.actor}}, Action: \`$${{github.event_name}}\`, Working Directory: \`$${{env.tf_actions_working_dir}}\`, Workflow: \`$${{github.workflow}}\`*`;
+            *Pusher: @$${{github.actor}}, Action: \`$${{github.event_name}}\`, Working Directory: \`$${{env.TF_ACTIONS_WORKING_DIR}}\`, Workflow: \`$${{github.workflow}}\`*`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -197,7 +204,7 @@ jobs:
 
             ### Terraform Apply \`$${{steps.tf-apply.outcome}}\`
 
-            *Pusher: @$${{github.actor}}, Action: \`$${{github.event_name}}\`, Working Directory: \`$${{env.tf_actions_working_dir}}\`, Workflow: \`$${{github.workflow}}\`*`;
+            *Pusher: @$${{github.actor}}, Action: \`$${{github.event_name}}\`, Working Directory: \`$${{env.TF_ACTIONS_WORKING_DIR}}\`, Workflow: \`$${{github.workflow}}\`*`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,

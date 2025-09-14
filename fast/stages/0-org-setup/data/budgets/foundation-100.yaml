@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=../../schemas/budget.schema.json
+# tftest-file id=8 path=data/budgets/test-100.yaml schema=budget.schema.json
+# folders/1234567890
+# billing budget foundation-100
+display_name: 100 dollars in current spend
+amount:
+  units: 100
+filter:
+  period:
+    calendar: MONTH
+  resource_ancestors:
+  - $folder_ids:bootstrap
+threshold_rules:
+- percent: 0.75
+  forecasted_spend: true
+- percent: 0.5
+update_rules:
+  default:
+    disable_default_iam_recipients: true
+    monitoring_notification_channels:
+    - $notification_channels:billing-default
+

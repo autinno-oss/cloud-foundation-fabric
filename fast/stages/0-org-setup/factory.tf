@@ -23,6 +23,29 @@ locals {
     try(local.project_defaults.defaults.parent, null) != null ||
     try(local.project_defaults.overrides.parent, null) != null
   ) ? {} : { parent = "organizations/${local.organization_id}" }
+
+  _factory_budgets = {
+    billing_account_id = try(local.defaults.billing_account, null)
+    data               = try(pathexpand("data/budgets"), "")
+  }
+  _factory_notification_channels = {
+    for k, v in var.notification_channels : k => {
+      project_id     = try(v.project_id, "${local.defaults.prefix}-prod-audit-logs-0")
+      type           = try(v.type, "email")
+      description    = try(v.description, null)
+      display_name    = try(v.display_name, null)
+      enabled        = try(v.enabled, true)
+      force_delete   = try(v.force_delete, null)
+      labels         = try(v.labels, null)
+      # sensitive_labels = !can(v.sensitive_labels) ? null : {
+      #   auth_token  = try(v.sensitive_labels.auth_token, null)
+      #   password    = try(v.sensitive_labels.password, null)
+      #   service_key = try(v.sensitive_labels.service_key, null)
+      # }
+      user_labels    = try(v.user_labels, null)
+    }
+    }
+
 }
 
 module "factory" {
@@ -55,5 +78,7 @@ module "factory" {
     folders           = var.factories_config.folders
     project_templates = var.factories_config.project_templates
     projects          = var.factories_config.projects
+    budgets           = local._factory_budgets
   }
+  notification_channels = local._factory_notification_channels
 }

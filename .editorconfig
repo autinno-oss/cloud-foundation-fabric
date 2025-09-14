@@ -1,0 +1,44 @@
+# top-most EditorConfig file
+root = true
+
+# Global settings for all files
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Override for Terraform and tfvars files (reinforces the global standard)
+[*.{tf,tfvars}]
+indent_style = space
+indent_size = 2
+
+# Override for Makefile, must use tabs
+[Makefile]
+indent_style = tab
+indent_size = 4 # Or 8, but 4 is a good balance
+
+# Override for Markdown, to preserve trailing spaces for line breaks
+[*.md]
+trim_trailing_whitespace = false
+insert_final_newline = true
+
+# Explicitly define for YAML, even though it's covered by the global rule
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
+
+# Explicitly define for shell scripts
+[*.sh]
+indent_style = space
+indent_size = 2
+
+# [*]
+# indent_style = space
+# indent_size = 4
+# end_of_line = lf
+# charset = utf-8
+# trim_trailing_whitespace = false
+# insert_final_newline = false

@@ -12,15 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# yaml-language-server: $schema=../../../schemas/custom-constraint.schema.json
+# yaml-language-server: $schema=../../../schemas/folder.schema.json
 
-custom.denyBridgePerimeters:
-  resource_types:
-    - accesscontextmanager.googleapis.com/ServicePerimeter
-  method_types:
-    - CREATE
-    - UPDATE
-  condition: "resource.perimeterType == 'PERIMETER_TYPE_BRIDGE'"
-  action_type: DENY
-  display_name: Disable perimeter bridges
-  description: Disables the use of perimeter bridges. Instead, use ingress and egress rules.
+name: GKE # Data Platform
+automation:
+  prefix: gke

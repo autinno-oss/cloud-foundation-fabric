@@ -61,3 +61,34 @@ variable "org_policies_imports" {
   nullable    = false
   default     = []
 }
+
+
+variable "notification_channels" {
+  description = "Notification channels used by budget alerts."
+  type = map(object({
+    project_id   = string
+    type         = string
+    description  = optional(string)
+    display_name = optional(string)
+    enabled      = optional(bool, true)
+    force_delete = optional(bool)
+    labels       = optional(map(string))
+    sensitive_labels = optional(list(object({
+      auth_token  = optional(string)
+      password    = optional(string)
+      service_key = optional(string)
+    })))
+    user_labels = optional(map(string))
+  }))
+  nullable = false
+  default  = {}
+  validation {
+    condition = alltrue([
+      for k, v in var.notification_channels : contains([
+        "campfire", "email", "google_chat", "hipchat", "pagerduty",
+        "pubsub", "slack", "sms", "webhook_basicauth", "webhook_tokenauth"
+      ], v.type)
+    ])
+    error_message = "Invalid notification channel type."
+  }
+}

@@ -61,3 +61,8 @@ blueprints/gke/patterns/batch/job-*.yaml
 modules/apigee/recipe-apigee-swp/bundle.zip
 modules/apigee/recipe-apigee-swp/deploy-apiproxy.sh
 
+### temporary directories
+.tmpdir
+temp-dir
+.temporarydir
+.tmpdir/

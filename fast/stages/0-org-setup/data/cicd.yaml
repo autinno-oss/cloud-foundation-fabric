@@ -20,7 +20,7 @@ workload_identity_federation:
   providers:
     github:
       # the condition is optional but recommented, use your GitHub org name
-      attribute_condition: attribute.repository_owner=="my_org"
+      attribute_condition: attribute.repository_owner=="autinno-oss"
       issuer: github
       # custom_settings:
       #   issuer_uri:
@@ -33,7 +33,7 @@ workflows:
       id: $wif_providers:github
       audiences: []
     repository:
-      name: org-setup
+      name: aoss-gitops-iac-terraform
       branch: main
     output_files:
       storage_bucket: $storage_buckets:iac-0/iac-outputs

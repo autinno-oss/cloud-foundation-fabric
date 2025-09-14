@@ -144,3 +144,21 @@ compute.restrictProtocolForwardingCreationForTypes:
 #   rules:
 #   - deny:
 #       all: true
+
+##### <--- default enabled constraints ---> #####
+
+## This list constraint defines the set of projects that are allowed to create and own shared reservations in the org.
+## A shared reservation is similar to a local reservation, except that instead of being consumable by only owner projects, they can be consumed by other Compute Engine projects in the resource hierarchy.
+## The list of projects allowed to access the shared reservation must be of the form: projects/PROJECT_NUMBER or under:projects/PROJECT_NUMBER.
+compute.sharedReservationsOwnerProjects:
+  rules:
+    - deny:
+        all: true
+
+# compute.managed.blockPreviewFeatures:
+#   rules:
+#   - enforce: true
+#     parameters: |
+#       {"allowedPreviewFeatures": []}
+
+## allowedPreviewFeatures.all(feature, feature.matches('^[a-zA-Z][A-Z0-9a-z]{0,31}'))

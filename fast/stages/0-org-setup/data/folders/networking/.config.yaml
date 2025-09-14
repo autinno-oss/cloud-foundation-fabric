@@ -32,19 +32,19 @@ iam_by_principals:
   $iam_principals:service_accounts/iac-0/iac-pf-ro:
     - roles/compute.viewer
 iam_bindings:
-  dp_dev_rw:
+  gke_dev_rw:
     members:
-      - $iam_principals:service_accounts/iac-0/iac-dp-dev-rw
+      - $iam_principals:service_accounts/iac-0/iac-gke-dev-rw
     role: $custom_roles:service_project_network_admin
     condition:
       expression: |
         resource.matchTag('${organization.id}/environment', 'development')
-      title: Data platform dev service project admin.
-  dp_dev_ro:
+      title: GKE dev service project admin.
+  gke_dev_ro:
     role: roles/compute.networkViewer
     members:
-      - $iam_principals:service_accounts/iac-0/iac-dp-dev-ro
+      - $iam_principals:service_accounts/iac-0/iac-gke-dev-ro
     condition:
-      title: Data platform dev network viewer.
+      title: GKE dev network viewer.
       expression: |
         resource.matchTag('${organization.id}/environment', 'development')

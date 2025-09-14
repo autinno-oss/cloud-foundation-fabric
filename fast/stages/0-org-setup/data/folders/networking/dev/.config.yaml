@@ -17,14 +17,14 @@
 name: Development
 iam:
   $custom_roles:project_iam_viewer:
-    - $iam_principals:service_accounts/iac-0/iac-dp-dev-ro
+    - $iam_principals:service_accounts/iac-0/iac-gke-dev-ro
 iam_bindings:
-  dp_dev:
+  gke_dev:
     role: roles/resourcemanager.projectIamAdmin
     members:
-      - $iam_principals:service_accounts/iac-0/iac-dp-dev-rw
+      - $iam_principals:service_accounts/iac-0/iac-gke-dev-rw
     condition:
-      title: Data platform dev delegated IAM grant.
+      title: GKE dev delegated IAM grant.
       expression: |
         api.getAttribute('iam.googleapis.com/modifiedGrantsByRole', []).hasOnly([
           '${custom_roles.service_project_network_admin}'

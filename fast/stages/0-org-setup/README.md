@@ -156,7 +156,7 @@ If you are using an externally managed billing account, make sure user has Billi
 If your dataset includes org policies which are already set in the organization, you must either comment them out in the relevant YAML files or configure this stage to import them. To figure out which policies are set, run `gcloud org-policies list --organization [your org id]`, then set the `org_policies_imports` variable in your tfvars file. The following is an example.
 
 ```bash
-gcloud org-policies list --organization 1234567890
+gcloud org-policies list --organization $GCP_ORG_ID
 CONSTRAINT                                       LIST_POLICY  BOOLEAN_POLICY
 iam.allowedPolicyMemberDomains                   SET          -  
 compute.disableSerialPortAccess                  -            SET

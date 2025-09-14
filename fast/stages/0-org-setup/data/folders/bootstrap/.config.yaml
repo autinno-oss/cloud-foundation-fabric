@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../../../schemas/folder.schema.json
+## bootstrap, shared
+# parent: $folder_ids:bootstrap
+name: Foundation
+iam_by_principals:
+  $iam_principals:service_accounts/iac-0/iac-org-rw:
+    - roles/logging.admin
+    - roles/owner
+    - roles/resourcemanager.folderAdmin
+    - roles/resourcemanager.projectCreator
+    - roles/resourcemanager.tagUser
+  $iam_principals:service_accounts/iac-0/iac-org-ro:
+    - roles/viewer
+    - roles/resourcemanager.folderViewer
+    - roles/resourcemanager.tagViewer

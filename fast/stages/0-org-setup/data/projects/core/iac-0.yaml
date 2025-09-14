@@ -15,7 +15,10 @@
 # yaml-language-server: $schema=../../../schemas/project.schema.json
 
 # TODO: data access logs configuration
+parent: $folder_ids:bootstrap
 name: prod-iac-core-0
+billing_budgets:
+  - $billing_budgets:foundation-100 # foundation-100
 iam_by_principals:
   $iam_principals:gcp-organization-admins:
     - roles/iam.serviceAccountTokenCreator
@@ -106,26 +109,26 @@ buckets:
             - $iam_principals:service_accounts/iac-0/iac-pf-rw
           $custom_roles:storage_viewer:
             - $iam_principals:service_accounts/iac-0/iac-pf-ro
-      3-data-platform-dev:
+      3-gke-dev:
         iam:
           roles/storage.admin:
-            - $iam_principals:service_accounts/iac-0/iac-dp-dev-rw
+            - $iam_principals:service_accounts/iac-0/iac-gke-dev-rw
           $custom_roles:storage_viewer:
-            - $iam_principals:service_accounts/iac-0/iac-dp-dev-ro
+            - $iam_principals:service_accounts/iac-0/iac-gke-dev-ro
   # Terraform state bucket for FAST outputs
   iac-outputs:
     description: Terraform state for the org-level automation.
     iam:
       roles/storage.admin:
         - $iam_principals:service_accounts/iac-0/iac-org-rw
-        - $iam_principals:service_accounts/iac-0/iac-dp-dev-rw
+        - $iam_principals:service_accounts/iac-0/iac-gke-dev-rw
         - $iam_principals:service_accounts/iac-0/iac-networking-rw
         - $iam_principals:service_accounts/iac-0/iac-security-rw
         - $iam_principals:service_accounts/iac-0/iac-pf-rw
         - $iam_principals:service_accounts/iac-0/iac-vpcsc-rw
       $custom_roles:storage_viewer:
         - $iam_principals:service_accounts/iac-0/iac-org-ro
-        - $iam_principals:service_accounts/iac-0/iac-dp-dev-ro
+        - $iam_principals:service_accounts/iac-0/iac-gke-dev-ro
         - $iam_principals:service_accounts/iac-0/iac-networking-ro
         - $iam_principals:service_accounts/iac-0/iac-security-ro
         - $iam_principals:service_accounts/iac-0/iac-pf-ro
@@ -167,8 +170,8 @@ service_accounts:
     display_name: IaC service account for project factory (read-only).
   iac-pf-rw:
     display_name: IaC service account for project factory (read-write).
-  # IaC service accounts for data platform (dev) stage
-  iac-dp-dev-ro:
-    display_name: IaC service account for data platform dev (read-only).
-  iac-dp-dev-rw:
-    display_name: IaC service account for data platform dev (read-write).
+  # IaC service accounts for GKE (dev) stage
+  iac-gke-dev-ro:
+    display_name: IaC service account for GKE dev (read-only).
+  iac-gke-dev-rw:
+    display_name: IaC service account for GKE dev (read-write).
