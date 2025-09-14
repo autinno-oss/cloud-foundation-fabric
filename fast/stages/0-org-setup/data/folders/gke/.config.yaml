@@ -14,6 +14,6 @@
 
 # yaml-language-server: $schema=../../../schemas/folder.schema.json
 
-name: GKE # Data Platform
-automation:
-  prefix: gke
+name: GKE
+# automation:
+#   prefix: gke

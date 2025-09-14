@@ -1,0 +1,18 @@
+# billing budget gke-dev-500
+display_name: 500 dollars in current spend
+amount:
+  units: 500
+filter:
+  period:
+    calendar: MONTH
+  # resource_ancestors:
+  # - $folder_ids:gke/dev
+threshold_rules:
+- percent: 0.75
+  forecasted_spend: true
+- percent: 0.5
+update_rules:
+  default:
+    disable_default_iam_recipients: false
+    monitoring_notification_channels:
+    - $notification_channels:billing-default

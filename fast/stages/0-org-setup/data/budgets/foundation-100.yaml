@@ -8,8 +8,8 @@ amount:
 filter:
   period:
     calendar: MONTH
-  resource_ancestors:
-  - $folder_ids:bootstrap
+  # resource_ancestors:
+  # - $folder_ids:bootstrap
 threshold_rules:
 - percent: 0.75
   forecasted_spend: true

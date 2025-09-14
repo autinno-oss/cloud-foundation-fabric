@@ -46,7 +46,8 @@ projects:
     # prefix must be unique and less than 9 characters
     prefix: aoss
     storage_location: europe-west1
-  overrides: {}
+  overrides:
+    parent: $folder_ids:bootstrap
 context:
   # you can populate context variables here for use in YAML replacements
   iam_principals:

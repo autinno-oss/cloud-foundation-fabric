@@ -66,3 +66,7 @@ modules/apigee/recipe-apigee-swp/deploy-apiproxy.sh
 temp-dir
 .temporarydir
 .tmpdir/
+
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+# example: *tfplan*
+*tfplan*

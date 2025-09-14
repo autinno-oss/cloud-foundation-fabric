@@ -97,20 +97,20 @@ logging:
     audit-logs:
       # description: foo
       # exclusions: {}
-      destination: $log_buckets:log-0/audit-logs
+      destination: $log_buckets:iac-0/audit-logs
       filter: |
         log_id("cloudaudit.googleapis.com/activity") OR
         log_id("cloudaudit.googleapis.com/system_event") OR
         log_id("cloudaudit.googleapis.com/policy") OR
         log_id("cloudaudit.googleapis.com/access_transparency")
     iam:
-      destination: $log_buckets:log-0/iam
+      destination: $log_buckets:iac-0/iam
       filter: |
         protoPayload.serviceName="iamcredentials.googleapis.com" OR
         protoPayload.serviceName="iam.googleapis.com" OR
         protoPayload.serviceName="sts.googleapis.com"
     vpc-sc:
-      destination: $log_buckets:log-0/vpc-sc
+      destination: $log_buckets:iac-0/vpc-sc
       filter: |
         protoPayload.metadata.@type="type.googleapis.com/google.cloud.audit.VpcServiceControlAuditMetadata"
 # authoritative IAM bindings by role

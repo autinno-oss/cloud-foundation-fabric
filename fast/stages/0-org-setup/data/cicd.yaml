@@ -15,7 +15,7 @@
 # yaml-language-server: $schema=../schemas/cicd.schema.json
 
 workload_identity_federation:
-  pool_name: iac-0
+  pool_name: gitops-iac-0
   project: $project_ids:iac-0
   providers:
     github:
